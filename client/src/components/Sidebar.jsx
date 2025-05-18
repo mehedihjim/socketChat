@@ -33,7 +33,7 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
           </div>
         </div>
         {/* ====Search Area==== */}
-        <div className="bg-[#1d301d] rounded-full flex items-center gap-2 py-3 px-4 mt-5">
+        <div className="bg-[#1d301d]/75 rounded-full flex items-center gap-2 py-3 px-4 mt-5">
           <img src={assets.search_icon} alt="search icon" className="w-3" />
           <input
             type="text"
@@ -43,14 +43,35 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
         </div>
 
         {/* ====Chat List==== */}
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-5">
           {userDummyData.map((user, index) => (
-            <div className="">
+            <div
+              key={index}
+              onClick={() => {
+                setSelectedUser(user);
+              }}
+              className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${
+                selectedUser?._id === user._id && "bg-[#1d301d]/50"
+              }`}
+            >
               <img
                 src={user?.profilePic || assets.avatar_icon}
                 alt=""
                 className="w-[35px] aspect-[1/1] rounded-full"
               />
+              <div className="flex flex-col leading-5">
+                <p>{user.fullName}</p>
+                {index < 3 ? (
+                  <span className="text-green-400 text-xs">Online</span>
+                ) : (
+                  <span className="text-neutral-400 text-xs">Offline</span>
+                )}
+              </div>
+              {index > 2 && (
+                <p className="absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-[#1d301d]/80">
+                  {index}
+                </p>
+              )}
             </div>
           ))}
         </div>
