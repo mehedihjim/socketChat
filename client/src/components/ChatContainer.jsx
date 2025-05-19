@@ -2,6 +2,8 @@ import React from "react";
 import assets, { messagesDummyData } from "../assets/assets";
 
 const ChatContainer = ({ selectedUser, setSelectedUser }) => {
+  const scrollEnd = null;
+
   return selectedUser ? (
     <div>
       {/* =====Chat Header Section===== */}
