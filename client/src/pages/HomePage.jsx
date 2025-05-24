@@ -23,10 +23,12 @@ const HomePage = () => {
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
         />
-        <RightSidebar
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser}
-        />
+        {selectedUser && (
+          <RightSidebar
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+          />
+        )}
       </div>
     </div>
   );

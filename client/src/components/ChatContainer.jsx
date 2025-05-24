@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import assets, { messagesDummyData } from "../assets/assets";
+import { formatMessageTime } from "../lib/ulits";
 
 const ChatContainer = ({ selectedUser, setSelectedUser }) => {
-  const scrollEnd = null;
+  const scrollEnd = useRef();
 
+  useEffect(() => {
+    if (scrollEnd.current) {
+      scrollEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   return selectedUser ? (
-    <div>
+    <div className="relative">
       {/* =====Chat Header Section===== */}
       <div className="flex items-center gap-3 py-4 mx-4 border-b border-stone-500">
         <img
@@ -31,7 +37,7 @@ const ChatContainer = ({ selectedUser, setSelectedUser }) => {
           <div
             key={index}
             className={`flex items-center gap-2 justify-end ${
-              message.senderId !== "680f571ff10f3cd28382f094" &&
+              message.senderId !== "680f5116f10f3cd28382ed02" &&
               "flex-row-reverse"
             }`}
           >
@@ -44,7 +50,7 @@ const ChatContainer = ({ selectedUser, setSelectedUser }) => {
             ) : (
               <p
                 className={`p-2 max-w-[200px] md:text-sm font-light rounded-lg mb-8 break-all bg-violet-500/30 text-white ${
-                  message.senderId === "680f571ff10f3cd28382f094"
+                  message.senderId === "680f5116f10f3cd28382ed02"
                     ? "rounded-br-none"
                     : "rounded-bl-none"
                 }`}
@@ -62,11 +68,37 @@ const ChatContainer = ({ selectedUser, setSelectedUser }) => {
                 alt="Profile Pic"
                 className="w-7 rounded-full"
               />
-              <p className="text-gray-500">{message.createdAt}</p>
+              <p className="text-gray-500">
+                {formatMessageTime(message.createdAt)}
+              </p>
             </div>
           </div>
         ))}
         <div className="" ref={scrollEnd}></div>
+      </div>
+
+      {/* Bottom Area for sending messages */}
+      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3">
+        <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
+          <input
+            type="text"
+            placeholder="Send a message"
+            className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"
+          />
+          <input type="file" id="image" accept="image/png, image/jpeg" hidden />
+          <label htmlFor="image">
+            <img
+              src={assets.gallery_icon}
+              alt="image icon"
+              className="w-5 mr-2 cursor-pointer"
+            />
+          </label>
+        </div>
+        <img
+          src={assets.send_button}
+          alt="send icon"
+          className="w-7 cursor-pointer"
+        />
       </div>
     </div>
   ) : (
